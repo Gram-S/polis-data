@@ -2,17 +2,11 @@
 title: Exploratory Data Analysis 
 ---
 
-``` 
-```
-```
-```
-```js
-```
 ## Exploratory Data Analysis
 
 ```js
 // table
-import {workbook, polis} from "./components/file-attachments.js";
+import {workbook, polis} from "./components/file-attachments.js@0.6.17";
 display(Inputs.table(polis));
 ```
 
@@ -463,3 +457,4 @@ ySelect.addEventListener("input", renderPlot);
 updateFilterButtons();
 renderPlot();
 display(container);
+```
