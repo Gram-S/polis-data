@@ -6,7 +6,7 @@ title: Exploratory Data Analysis
 
 ```js
 // table
-import {workbook, polis} from "./components/file-attachments.js@0.6.17";
+import {workbook, polis} from "./components/file-attachments.js";
 display(Inputs.table(polis));
 ```
 
