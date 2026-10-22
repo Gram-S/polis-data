@@ -2,12 +2,6 @@
 title: Exploratory Data Analysis 
 ---
 
-``` 
-```
-```
-```
-```js
-```
 ## Exploratory Data Analysis
 
 ```js
@@ -161,7 +155,7 @@ requestAnimationFrame(() => {
 
 ```js
 // Scatterplot
-import * as Plot from "npm:@observablehq/plot";
+import * as Plot from "npm:@observablehq/plot@0.6.17";
 
 const xVariables = [
   {column: "staseis", label: "Staseis"},
@@ -463,3 +457,4 @@ ySelect.addEventListener("input", renderPlot);
 updateFilterButtons();
 renderPlot();
 display(container);
+```
