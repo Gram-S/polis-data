@@ -138,12 +138,24 @@ for (const d of validPolis) {
 const legend = L.control({position: "bottomright"});
 legend.onAdd = () => {
   const div = L.DomUtil.create("div");
-  div.style.cssText = "background:rgba(20,20,20,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif;";
+  div.style.cssText = "background:rgba(245, 236, 198,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif; border: 1.5px solid #000";
+  // Controls what's inside the legend
   div.innerHTML = `
-    <div style="margin-bottom:4px;">Staseis</div>
-    <div style="width:150px; height:10px; background:linear-gradient(to right, #2166ac, #b2182b);"></div>
-    <div style="display:flex; justify-content:space-between;"><span>0</span><span>20</span></div>
-    <div style="margin-top:4px; color:#ccc;">gray = missing</div>
+    <div style="margin-bottom:4px; color:rgba(21, 23, 26)">Staseis count per Polis</div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(69, 136, 245, 0.5); border-radius: 50%; border: 2px solid rgba(69, 136, 245); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">0</span>
+        </span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(125, 75, 242, 0.5); border-radius: 50%; border: 2px solid rgba(125, 75, 242); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">0 to 10</span>
+        </span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(247, 83, 72, 0.5); border-radius: 50%; border: 2px solid rgba(247, 83, 72); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">More than 10</span>
+        </span>
+    </div>
   `;
   return div;
 };
