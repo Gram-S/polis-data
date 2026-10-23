@@ -40,10 +40,12 @@ const validPolis = polis.filter(
   d => Number.isFinite(+d.Latitude) && Number.isFinite(+d.Longitude)
 );
 
+// define some colors for use throughout the project
+const blue = [69, 136, 245];
+const purple = [125, 75, 242]; 
+const red = [247, 83, 72];
+
 const staseisColor = value => {
-  const blue = [69, 136, 245];
-  const purple = [125, 75, 242]; 
-  const red = [247, 83, 72];
 
   switch(true){
     case(value == 0):
@@ -100,13 +102,15 @@ const popupFor = d => {
   `;
 };
 
-const mapElement = html`<div class="dark-osm-basemap" style="height:650px; width:100%;"></div>`;
+// Leaflet creation
+const mapElement = html`<div style="height:650px; width:100%;"></div>`;
 const map = L.map(mapElement, {preferCanvas: true});
 
 L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
-    maxZoom: 19,
+    maxZoom: 12,
+    minZoom: 4,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     crossOrigin: true
   }
