@@ -23,17 +23,39 @@ if (!document.head.querySelector("link[data-leaflet-css]")) {
   document.head.append(leafletCss);
 }
 
+/*  // Dark mode figure
+if (!document.head.querySelector("style[data-dark-osm]")) {
+  const darkOsmCss = document.createElement("style");
+  darkOsmCss.dataset.darkOsm = "true";
+  darkOsmCss.textContent = `
+    .dark-osm-basemap .leaflet-tile-pane {
+      filter: invert(90%) hue-rotate(180deg) brightness(0.65) saturate(0.7);
+    }
+  `;
+  document.head.append(darkOsmCss);
+}
+*/
+
 const validPolis = polis.filter(
   d => Number.isFinite(+d.Latitude) && Number.isFinite(+d.Longitude)
 );
 
 const staseisColor = value => {
-  const t = Math.max(0, Math.min(1, value / 20));
-  const blue = [33, 102, 172];
-  const red = [178, 24, 43];
-  const rgb = blue.map((channel, i) => Math.round(channel + t * (red[i] - channel)));
-  return `rgb(${rgb.join(",")})`;
+  const blue = [69, 136, 245];
+  const purple = [125, 75, 242]; 
+  const red = [247, 83, 72];
+
+  switch(true){
+    case(value == 0):
+        return `rgb(${blue})`
+    case(value <= 10):
+        return `rgb(${purple})`
+    case(value >= 0):
+        return `rgb(${red})`
+  }
 };
+
+
 
 const escapeHtml = value => String(value ?? "")
   .replaceAll("&", "&amp;")
