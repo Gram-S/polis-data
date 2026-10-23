@@ -138,7 +138,7 @@ for (const d of validPolis) {
 const legend = L.control({position: "bottomright"});
 legend.onAdd = () => {
   const div = L.DomUtil.create("div");
-  div.style.cssText = "background:rgba(245, 236, 198,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif; border: 1.5px solid #000";
+  div.style.cssText = "background:rgba(245, 236, 198,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif; font-weight: bold; border: 1.5px solid #000";
   // Controls what's inside the legend
   div.innerHTML = `
     <div style="margin-bottom:4px; color:rgba(21, 23, 26)">Staseis count per Polis</div>
