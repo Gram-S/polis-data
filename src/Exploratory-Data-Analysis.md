@@ -14,24 +14,13 @@ display(Inputs.table(polis));
 // Leaflet Map
 import L from "npm:leaflet@1.9.4";
 
-// Load Leaflet's CSS as a stylesheet rather than as a JavaScript module.
+// Load Leaflet's CSS as a stylesheet rather than as a JavaScript module. Sets the color of the leaflet.
 if (!document.head.querySelector("link[data-leaflet-css]")) {
   const leafletCss = document.createElement("link");
   leafletCss.rel = "stylesheet";
   leafletCss.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
   leafletCss.dataset.leafletCss = "true";
   document.head.append(leafletCss);
-}
-
-if (!document.head.querySelector("style[data-dark-osm]")) {
-  const darkOsmCss = document.createElement("style");
-  darkOsmCss.dataset.darkOsm = "true";
-  darkOsmCss.textContent = `
-    .dark-osm-basemap .leaflet-tile-pane {
-      filter: invert(90%) hue-rotate(180deg) brightness(0.65) saturate(0.7);
-    }
-  `;
-  document.head.append(darkOsmCss);
 }
 
 const validPolis = polis.filter(
