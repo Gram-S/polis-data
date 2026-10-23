@@ -7,14 +7,14 @@ title: Exploratory Data Analysis
 ```js
 // table
 import {workbook, polis} from "./components/file-attachments.js";
-display(Inputs.table(polis));
+display(Inputs.table(polis, {select: false}));
 ```
 
 ```js
 // Leaflet Map
 import L from "npm:leaflet@1.9.4";
 
-// Load Leaflet's CSS as a stylesheet rather than as a JavaScript module.
+// Load Leaflet's CSS as a stylesheet rather than as a JavaScript module. Sets the color of the leaflet.
 if (!document.head.querySelector("link[data-leaflet-css]")) {
   const leafletCss = document.createElement("link");
   leafletCss.rel = "stylesheet";
@@ -23,6 +23,7 @@ if (!document.head.querySelector("link[data-leaflet-css]")) {
   document.head.append(leafletCss);
 }
 
+/*  // Dark mode figure
 if (!document.head.querySelector("style[data-dark-osm]")) {
   const darkOsmCss = document.createElement("style");
   darkOsmCss.dataset.darkOsm = "true";
@@ -33,18 +34,29 @@ if (!document.head.querySelector("style[data-dark-osm]")) {
   `;
   document.head.append(darkOsmCss);
 }
+*/
 
 const validPolis = polis.filter(
   d => Number.isFinite(+d.Latitude) && Number.isFinite(+d.Longitude)
 );
 
+// define some colors for use throughout the project
+const blue = [69, 136, 245];
+const purple = [125, 75, 242]; 
+const red = [247, 83, 72];
+
 const staseisColor = value => {
-  const t = Math.max(0, Math.min(1, value / 20));
-  const blue = [33, 102, 172];
-  const red = [178, 24, 43];
-  const rgb = blue.map((channel, i) => Math.round(channel + t * (red[i] - channel)));
-  return `rgb(${rgb.join(",")})`;
+
+  switch(true){
+    case(value == 0):
+        return `rgb(${blue})`
+    case(value <= 10):
+        return `rgb(${purple})`
+    case(value >= 0):
+        return `rgb(${red})`
+  }
 };
+
 
 const escapeHtml = value => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -90,13 +102,15 @@ const popupFor = d => {
   `;
 };
 
-const mapElement = html`<div class="dark-osm-basemap" style="height:650px; width:100%;"></div>`;
+// Leaflet creation
+const mapElement = html`<div style="height:650px; width:100%;"></div>`;
 const map = L.map(mapElement, {preferCanvas: true});
 
 L.tileLayer(
   "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   {
-    maxZoom: 19,
+    maxZoom: 12,
+    minZoom: 4,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     crossOrigin: true
   }
@@ -124,12 +138,24 @@ for (const d of validPolis) {
 const legend = L.control({position: "bottomright"});
 legend.onAdd = () => {
   const div = L.DomUtil.create("div");
-  div.style.cssText = "background:rgba(20,20,20,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif;";
+  div.style.cssText = "background:rgba(245, 236, 198,.86); color:#fff; padding:8px; font:12px system-ui, sans-serif; font-weight: bold; border: 1.5px solid #000";
+  // Controls what's inside the legend
   div.innerHTML = `
-    <div style="margin-bottom:4px;">Staseis</div>
-    <div style="width:150px; height:10px; background:linear-gradient(to right, #2166ac, #b2182b);"></div>
-    <div style="display:flex; justify-content:space-between;"><span>0</span><span>20</span></div>
-    <div style="margin-top:4px; color:#ccc;">gray = missing</div>
+    <div style="margin-bottom:4px; color:rgba(21, 23, 26)">Staseis count per Polis</div>
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(69, 136, 245, 0.5); border-radius: 50%; border: 2px solid rgba(69, 136, 245); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">0</span>
+        </span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(125, 75, 242, 0.5); border-radius: 50%; border: 2px solid rgba(125, 75, 242); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">0 to 10</span>
+        </span>
+        <span style="display: flex; align-items: center; gap: 8px;">
+            <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(247, 83, 72, 0.5); border-radius: 50%; border: 2px solid rgba(247, 83, 72); box-sizing: border-box;"></span>
+            <span style="color:rgba(21, 23, 26)">More than 10</span>
+        </span>
+    </div>
   `;
   return div;
 };
