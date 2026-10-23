@@ -7,7 +7,7 @@ title: Exploratory Data Analysis
 ```js
 // table
 import {workbook, polis} from "./components/file-attachments.js";
-display(Inputs.table(polis));
+display(Inputs.table(polis, {select: false}));
 ```
 
 ```js
@@ -54,7 +54,6 @@ const staseisColor = value => {
         return `rgb(${red})`
   }
 };
-
 
 
 const escapeHtml = value => String(value ?? "")
