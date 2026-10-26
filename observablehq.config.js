@@ -13,6 +13,7 @@ export default {
         {name: "Exploratory Data Analysis", path: "/Exploratory-Data-Analysis"},
         {name: "Regression Analysis", path: "/Regression-Analysis"},
         {name: "Interactive Regression Model", path: "/Interactive-Regression-Model"},
+        {name: "Spatial Autocorrelation Analysis", path: "/Spatial-Autocorrelation-Analysis"},
         {name: "Conclusion", path: "/Conclusion"}
        ]
      }
