@@ -502,6 +502,7 @@ const renderModel = () => {
         </div>
         <div style="margin-bottom:8px;">* p &lt; 0.1 · ** p &lt; 0.05 · *** p &lt; 0.01</div>
         <div data-regression-table></div>
+        <div style="margin-top:6px;">"Coefficient" refers to the Correlation Coefficient, a measure that indicates the strength of the linear relationship between two variables. "Std. Error" is the Standard Error, or how much the sample mean deviates from the true mean, essentially measuring how precise the sample's estimate is. "T Statistic" is a measure of how far away a statistic is from an expected value, measured in standard errors. A positive T Statistic indicates that the statistic is greater than the expected value, and a negative T Statistic indicates that the statistic is less than the expected value.</div>
         <div data-scatterplots style="margin-top:18px;"></div>
       </div>
     `;

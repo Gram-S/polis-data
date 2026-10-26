@@ -357,6 +357,7 @@ const correlationOutput = html`
       <span>strong positive +1</span>
     </div>
     <div style="margin-top:6px;">* p &lt; 0.1 · ** p &lt; 0.05 · *** p &lt; 0.01</div>
+    <div style="margin-top:6px;">p refers to the level of confidence in the correlation between two variables. The lower p is, the more confident we are that the correlation value obtained between two variables is correct. Stars are used in the Pearson graph to denote these different p values.</div>
   </div>
 `;
 
