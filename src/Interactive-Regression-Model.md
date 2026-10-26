@@ -31,7 +31,7 @@ const omittedPredictors = new Set([
   "prom 1"
 ]);
 
-const candidatePredictors = [...new Set(["area 2", ...Object.keys(polis[0])])].filter(column =>
+const candidatePredictors = [...new Set(["area 2", "Silver", "Brone", "Grid", "In/Out", "prom 1", "prom 2", "prom 3",  ...Object.keys(polis[0])])].filter(column =>
   !omittedPredictors.has(column) &&
   polis.some(d => isUsableValue(column, d[column]))
 );
