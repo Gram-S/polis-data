@@ -2,14 +2,47 @@
 title: Exploratory Data Analysis 
 ---
 
-## Exploratory Data Analysis
-
 ```js
 // table
 import {workbook, polis} from "./components/file-attachments.js";
-display(Inputs.table(polis, {select: false}));
 ```
 
+## Exploratory Data Analysis
+
+Political violence occurs somewhat customarily in the various human regimes throughout history. While the cause of political violence is often complex, understanding the factors which drive it is critical to both the preservation of history and preventing it from occurring in the future. One can imagine such a cause is multivariate, though we can somewhat simplify our analysis by focusing on a certain type of political violence, *Staseis*, documented in a dataset by Scott Arcenas (see Figure 1). We define Staseis as a period of violent conflict (civil war) within a *Polis* (Greek city), in the span of 500 and 300 BCE. One should note due to historical uncertainty, our dataset quantifies Staseis anecdotally, and perhaps not always by documented named events. The variable which measures this uncertainty is called *Prominence*. While we are given multiple metrics for Prominence, we only consider first (called Prominence 1 in the dataset), as the others lack enough coverage for rigorous analysis. Additionally, our dataset includes many variables not definitionally related to Staseis. After reviewing them, we propose the following hypothesis.
+
+<b>Staseis has the strongest correlation with Democracy compared to Area, Elevation, and Victor variables.</b>
+
+## Interactive Dataset 
+We begin with an interactive demonstration of the data. The intentions of this page are as follows. Allow the reader to visualize data geographically. Offer a simple method for the reader to explore simple correlation relationships in the data with our main variable, Staetis. Provide transparency in our understanding, interpretation, and representation of the data, to which the reader should agree we do so intellectually and in good faith. First is a simple rendering of the dataset we use for our analysis.   
+
+
+
+<!-- Figure 1. The Dataset Table. -->
+<!-- Colors for row & hover bgs. I'd like to change the header row but that's beyond my capabilities. -->
+<style>
+  .inputs-3a86ea-table tr { 
+    background-color: #f9f9f9;
+    color: #333333;
+  }
+
+  .inputs-3a86ea-table tr:hover { 
+    background-color: #e6f7ff; 
+  }
+</style>
+
+<figure style="max-width: 100%; margin: 0;">
+  ${Inputs.table(polis, {select: false})}
+  <figcaption style="color: #666; font-size: 0.85em; margin-top: 4px;">
+    Figure 1. Full visual representation of Scott Arcenas' Polis data codebook, version of 21/08/25. Each row is a Polis and various attributes of it, such as the # of Staseis events. Cells with no number lack data in that attribute given relevant Polis. 
+  </figcaption>
+</figure>
+
+## Geographic Representation
+
+Then, we use *Leaflet* in to plot the latitude and longitude of each Polis, as well as color them by their Staseis count. We choose to color them with a range rather than with a gradient, as a notable number of Polies contain 0 Staseis'. We impose a ternary classification with classes None (0), Some (1-9), Many (10+) for each Polis in regards to their Staseis count. Arbitrarily, we choose 10 (inclusive) to be the cutoff for the many category as it seems Staseis events are evenly distributed enough. That is to say, there is not a significant amount of Polies which would cause confusion in this range. 
+
+<!-- Figure 2. Leaflet -->
 ```js
 // Leaflet Map
 import L from "npm:leaflet@1.9.4";
@@ -50,9 +83,9 @@ const staseisColor = value => {
   switch(true){
     case(value == 0):
         return `rgb(${blue})`
-    case(value <= 10):
+    case(value < 10):
         return `rgb(${purple})`
-    case(value >= 0):
+    case(value >= 10):
         return `rgb(${red})`
   }
 };
@@ -149,11 +182,11 @@ legend.onAdd = () => {
         </span>
         <span style="display: flex; align-items: center; gap: 8px;">
             <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(125, 75, 242, 0.5); border-radius: 50%; border: 2px solid rgba(125, 75, 242); box-sizing: border-box;"></span>
-            <span style="color:rgba(21, 23, 26)">0 to 10</span>
+            <span style="color:rgba(21, 23, 26)">1 to 9</span>
         </span>
         <span style="display: flex; align-items: center; gap: 8px;">
             <span style="display: inline-block; width: 12px; height: 12px; background-color: rgba(247, 83, 72, 0.5); border-radius: 50%; border: 2px solid rgba(247, 83, 72); box-sizing: border-box;"></span>
-            <span style="color:rgba(21, 23, 26)">More than 10</span>
+            <span style="color:rgba(21, 23, 26)">10 or more</span>
         </span>
     </div>
   `;
@@ -174,11 +207,16 @@ requestAnimationFrame(() => {
     );
   }
 });
-
 ```
 
-## Scatterplot
+<figcaption style="color: #666; font-size: 0.85em; margin-top: 4px;">
+    Figure 2. Geographic Map of Polies. The gray boarder around landmasses has no relation to our analysis.  
+</figcaption>
 
+## Scatterplot
+To test our hypothesis, we provide a sandbox which tests the correlation between some sample variables. To determine if there is a correlation between any two variables, we use a linear regression and the mean squared error (R²). We also provide prominence filtering for users who only want to observe points they are confident are Polis'.
+
+<!-- Figure 3. Scatterplot -->
 ```js
 // Scatterplot
 import * as Plot from "npm:@observablehq/plot";
@@ -287,6 +325,8 @@ for (const filter of categoricalFilters) {
 
   filterControls.append(row);
 }
+
+// Give the user some opitions for modifying the prominence here. We use these values to filter the database later
 
 const prominenceRow = document.createElement("div");
 prominenceRow.style.marginTop = "6px";
@@ -484,3 +524,7 @@ updateFilterButtons();
 renderPlot();
 display(container);
 ```
+
+<figcaption style="color: #666; font-size: 0.85em; margin-top: 4px;">
+    Figure 3. Variable Correlation Investigation for users. Dot colors are unrelated. Filters will only analyze Polis' which match all the filters. Note that n represents the number of plottable points, whereas filtered matches includes points which may not have data to be plotted. Further note applying too little filters will result in R² becoming unavailable due to lack of data. 
+</figcaption>
